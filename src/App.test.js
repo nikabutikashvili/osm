@@ -1,8 +1,20 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen, waitFor } from "@testing-library/react";
+import App from "./App";
+import { MapContainer } from "react-leaflet";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+global.matchMedia =
+  global.matchMedia ||
+  function () {
+    return {
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+    };
+  };
+
+test("renders heading", () => {
+  render(<App />, { wrapper: MapContainer });
+  const heading = screen.getByRole("heading", {
+    name: /please insert coordinates/i,
+  });
+  expect(heading).toBeInTheDocument();
 });
